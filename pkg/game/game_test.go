@@ -50,3 +50,28 @@ func TestUserChoices(t *testing.T) {
     t.Fatalf("User chose grass, but got %s", g.PlayerChoice)
   }
 }
+
+func TestDraw(t *testing.T) {
+  g := game.New()
+  g.Choose()
+  g.PlayerChoice = g.CpuChoice
+  g.Decide()
+  if g.Draw != true {
+    t.Fatalf("CPU and Player chose the same option but it did not result in a draw.")
+  }
+}
+
+func TestGameRules(t *testing.T) {
+  g := game.New()
+  g.PlayerChoice = game.CHOICE_FIRE
+  g.CpuChoice = game.CHOICE_GRASS
+  g.Decide()
+  if g.Decision != game.WINNER_PLAYER {
+    t.Fatalf("Player should've won (fire vs. grass), but did not")
+  }
+  g.CpuChoice = game.CHOICE_WATER
+  g.Decide()
+  if g.Decision != game.WINNER_CPU {
+    t.Fatalf("CPU should've won (fire vs. water), but did not")
+  }
+}

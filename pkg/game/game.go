@@ -8,12 +8,17 @@ const (
 	CHOICE_FIRE  = "fire"
 	CHOICE_WATER = "water"
 	CHOICE_GRASS = "grass"
+
+	WINNER_CPU    = "Cpu"
+	WINNER_PLAYER = "Player"
 )
 
 type Game struct {
 	PlayerChoice string
 	CpuChoice    string
 	GameOver     bool
+	Draw         bool
+	Decision     string
 }
 
 func New() *Game {
@@ -57,12 +62,39 @@ func (g *Game) HasChosen() bool {
 }
 
 func (g *Game) Decide() {
+	if g.PlayerChoice == g.CpuChoice {
+		g.Draw = true
+		g.GameOver = true
+		return
+	}
 
+	if g.PlayerChoice == CHOICE_FIRE {
+		if g.CpuChoice == CHOICE_WATER {
+			g.Decision = WINNER_CPU
+		} else {
+			g.Decision = WINNER_PLAYER
+		}
+	}
+	if g.PlayerChoice == CHOICE_GRASS {
+		if g.CpuChoice == CHOICE_WATER {
+			g.Decision = WINNER_PLAYER
+		} else {
+			g.Decision = WINNER_CPU
+		}
+	}
+  if g.PlayerChoice == CHOICE_WATER {
+		if g.CpuChoice == CHOICE_FIRE {
+			g.Decision = WINNER_PLAYER
+		} else {
+			g.Decision = WINNER_CPU
+		}
+	}
+	g.GameOver = true
 }
 
 func (g *Game) IsEnded() bool {
-  if g.GameOver {
-    return true
-  }
-  return false
+	if g.GameOver {
+		return true
+	}
+	return false
 }
