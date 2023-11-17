@@ -1,4 +1,6 @@
-# go-fwg: Fire / Water / Grass
+# Fire Water Grass CLI
+
+A small Fire / Water / Grass command line game.
 
 An alternate to Rock / Paper / Scissors.
 
